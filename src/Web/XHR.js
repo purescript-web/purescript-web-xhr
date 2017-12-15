@@ -18,8 +18,8 @@ exports._getResponseHeader = function(header, xhr) {
   return xhr.getResponseHeader(header);
 };
 
-exports._open = function(xhr) {
-  xhr.open();
+exports._open = function(method, url, username, password, xhr) {
+  xhr.open(method, url, true, username, password);
 };
 
 exports._overrideMimeType = function(mimeType, xhr) {
