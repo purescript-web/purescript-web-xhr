@@ -8,7 +8,7 @@ module Web.XHR.Types
   , string
   , blob
   , document
-  , unsafeResponseType
+  , arrayBuffer
   , xmlHttpRequestToEventTarget
   , xmlHttpRequestUploadToEventTarget
   ) where
@@ -19,9 +19,9 @@ import Control.Monad.Eff (kind Effect)
 import DOM.Event.Types (EventTarget)
 import DOM.File.Types (Blob)
 import DOM.Node.Types (Document)
+import Data.ArrayBuffer.Types (ArrayBuffer)
 import Data.Enum (class BoundedEnum, class Enum, Cardinality(..), defaultPred, defaultSucc, fromEnum, toEnum)
 import Data.Maybe (Maybe(..))
-import Type.Proxy (Proxy)
 import Unsafe.Coerce (unsafeCoerce)
 
 foreign import data XHR :: Effect
@@ -67,8 +67,8 @@ blob = ResponseType "blob"
 document :: ResponseType Document
 document = ResponseType "document"
 
-unsafeResponseType :: forall res. Proxy res -> String -> ResponseType res
-unsafeResponseType _ = ResponseType
+arrayBuffer :: ResponseType ArrayBuffer
+arrayBuffer = ResponseType "arraybuffer"
 
 xmlHttpRequestToEventTarget :: forall res. XMLHttpRequest res -> EventTarget
 xmlHttpRequestToEventTarget = unsafeCoerce
