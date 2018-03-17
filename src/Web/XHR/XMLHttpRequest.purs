@@ -10,6 +10,7 @@ module Web.XHR.XMLHttpRequest
   , sendString
   , sendDocument
   , sendBlob
+  , sendArrayView
   , sendFormData
   , setRequestHeader
   , readyState
@@ -30,6 +31,7 @@ import Control.Monad.Eff (kind Effect, Eff)
 import Control.Monad.Eff.Uncurried as Fn
 import DOM.File.Types (Blob)
 import DOM.Node.Types (Document)
+import Data.ArrayBuffer.Types (ArrayView)
 import Data.Enum (toEnum)
 import Data.Foreign (Foreign, toForeign)
 import Data.Maybe (Maybe(..), fromMaybe)
@@ -67,6 +69,9 @@ sendString payload xhr = Fn.runEffFn2 _send (toForeign payload) xhr
 
 sendBlob :: forall res eff. Blob -> XMLHttpRequest res -> Eff (xhr :: XHR | eff) Unit
 sendBlob payload xhr = Fn.runEffFn2 _send (toForeign payload) xhr
+
+sendArrayView :: forall a res eff. ArrayView a -> XMLHttpRequest res -> Eff (xhr :: XHR | eff) Unit
+sendArrayView payload xhr = Fn.runEffFn2 _send (toForeign payload) xhr
 
 sendFormData :: forall res eff. FormData -> XMLHttpRequest res -> Eff (xhr :: XHR | eff) Unit
 sendFormData payload xhr = Fn.runEffFn2 _send (toForeign payload) xhr
