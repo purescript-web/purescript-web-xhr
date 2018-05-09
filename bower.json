@@ -16,19 +16,10 @@
     "output"
   ],
   "dependencies": {
-    "purescript-prelude": "^3.0.0",
-    "purescript-console": "^3.0.0",
-    "purescript-dom": "^4.0.0",
-    "purescript-datetime": "^3.0.0",
-    "purescript-foreign": "^4.0.0",
-    "purescript-nullable": "^3.0.0",
-    "purescript-eff": "^3.1.0",
-    "purescript-proxy": "^2.0.0",
-    "purescript-unsafe-coerce": "^3.0.0",
-    "purescript-maybe": "^3.0.0",
-    "purescript-arraybuffer-types": "^1.0.0"
-  },
-  "devDependencies": {
-    "purescript-psci-support": "^3.0.0"
+    "purescript-arraybuffer-types": "^2.0.0",
+    "purescript-datetime": "#compiler/0.12",
+    "purescript-http-methods": "#compiler/0.12",
+    "purescript-web-dom": "#compiler/0.12",
+    "purescript-web-file": "#compiler/0.12"
   }
 }
