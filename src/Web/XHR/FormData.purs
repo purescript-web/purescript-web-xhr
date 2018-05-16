@@ -1,4 +1,4 @@
-module DOM.XHR.FormData
+module Web.XHR.FormData
   ( FormData
   , EntryName(..)
   , FileName(..)

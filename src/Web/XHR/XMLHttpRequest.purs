@@ -29,7 +29,6 @@ module Web.XHR.XMLHttpRequest
 
 import Prelude
 
-import DOM.XHR.FormData (FormData)
 import Data.ArrayBuffer.Types (ArrayView)
 import Data.Either (Either)
 import Data.Enum (toEnum)
@@ -47,6 +46,7 @@ import Unsafe.Coerce (unsafeCoerce)
 import Web.DOM.Document (Document)
 import Web.Event.EventTarget (EventTarget)
 import Web.File.Blob (Blob)
+import Web.XHR.FormData (FormData)
 import Web.XHR.ReadyState (ReadyState(..))
 import Web.XHR.ResponseType (ResponseType)
 import Web.XHR.XMLHttpRequestUpload (XMLHttpRequestUpload)
