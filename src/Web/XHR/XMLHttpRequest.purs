@@ -1,5 +1,7 @@
 module Web.XHR.XMLHttpRequest
-  ( xmlHttpRequest
+  ( XMLHttpRequest
+  , toEventTarget
+  , xmlHttpRequest
   , abort
   , getAllResponseHeaders
   , getResponseHeader
@@ -27,136 +29,145 @@ module Web.XHR.XMLHttpRequest
 
 import Prelude
 
-import Control.Monad.Eff (kind Effect, Eff)
-import Control.Monad.Eff.Uncurried as Fn
-import DOM.File.Types (Blob)
-import DOM.Node.Types (Document)
 import Data.ArrayBuffer.Types (ArrayView)
+import Data.Either (Either)
 import Data.Enum (toEnum)
-import Data.Foreign (Foreign, toForeign)
+import Data.HTTP.Method (CustomMethod, Method)
+import Data.HTTP.Method as Method
 import Data.Maybe (Maybe(..), fromMaybe)
+import Data.MediaType (MediaType(..))
+import Data.Newtype (un)
 import Data.Nullable (Nullable, toMaybe, toNullable)
-import Data.Time.Duration (Milliseconds(..))
+import Data.Time.Duration (Milliseconds)
+import Effect (Effect)
+import Effect.Uncurried as Fn
+import Foreign (Foreign)
 import Unsafe.Coerce (unsafeCoerce)
-import Web.XHR.Types (FormData, ReadyState(..), ResponseType, XHR, XMLHttpRequest, XMLHttpRequestUpload)
+import Web.DOM.Document (Document)
+import Web.Event.EventTarget (EventTarget)
+import Web.File.Blob (Blob)
+import Web.XHR.FormData (FormData)
+import Web.XHR.ReadyState (ReadyState(..))
+import Web.XHR.ResponseType (ResponseType)
+import Web.XHR.XMLHttpRequestUpload (XMLHttpRequestUpload)
 
-xmlHttpRequest :: forall res eff. ResponseType res -> Eff (xhr :: XHR | eff) (XMLHttpRequest res)
-xmlHttpRequest = Fn.runEffFn1 _xmlHttpRequest
+-- | `XMLHttpRequest`s are indexed by their `ResponseType`
+foreign import data XMLHttpRequest :: Type -> Type
 
-abort :: forall res eff. XMLHttpRequest res -> Eff (xhr :: XHR | eff) Unit
-abort = Fn.runEffFn1 _abort
+toEventTarget :: forall res. XMLHttpRequest res -> EventTarget
+toEventTarget = unsafeCoerce
 
-getAllResponseHeaders :: forall res eff. XMLHttpRequest res -> Eff (xhr :: XHR | eff) (Maybe String)
-getAllResponseHeaders xhr = toMaybe <$> Fn.runEffFn1 _getAllResponseHeaders xhr
+xmlHttpRequest :: forall res. ResponseType res -> Effect (XMLHttpRequest res)
+xmlHttpRequest = Fn.runEffectFn1 _xmlHttpRequest
 
-getResponseHeader :: forall res eff. String -> XMLHttpRequest res -> Eff (xhr :: XHR | eff) (Maybe String)
-getResponseHeader header xhr = toMaybe <$> Fn.runEffFn2 _getResponseHeader header xhr
+abort :: forall res. XMLHttpRequest res -> Effect Unit
+abort = Fn.runEffectFn1 _abort
 
-open :: forall res eff. String -> String -> XMLHttpRequest res -> Eff (xhr :: XHR | eff) Unit
-open method url xhr = Fn.runEffFn5 _open method url (toNullable Nothing) (toNullable Nothing) xhr
+getAllResponseHeaders :: forall res. XMLHttpRequest res -> Effect (Maybe String)
+getAllResponseHeaders xhr = toMaybe <$> Fn.runEffectFn1 _getAllResponseHeaders xhr
 
-open' :: forall res eff. { method :: String, url :: String, username :: Maybe String, password :: Maybe String } -> XMLHttpRequest res -> Eff (xhr :: XHR | eff) Unit
-open' options xhr = Fn.runEffFn5 _open options.method options.url (toNullable options.username) (toNullable options.password) xhr
+getResponseHeader :: forall res. String -> XMLHttpRequest res -> Effect (Maybe String)
+getResponseHeader header xhr = toMaybe <$> Fn.runEffectFn2 _getResponseHeader header xhr
 
-overrideMimeType :: forall res eff. String -> XMLHttpRequest res -> Eff (xhr :: XHR | eff) Unit
-overrideMimeType = Fn.runEffFn2 _overrideMimeType
+open :: forall res. Either Method CustomMethod -> String -> XMLHttpRequest res -> Effect Unit
+open method url xhr = Fn.runEffectFn5 _open (Method.print method) url (toNullable Nothing) (toNullable Nothing) xhr
 
-send :: forall res eff. XMLHttpRequest res -> Eff (xhr :: XHR | eff) Unit
-send = Fn.runEffFn2 _send (toForeign (toNullable Nothing))
+open' :: forall res. { method :: Either Method CustomMethod, url :: String, username :: Maybe String, password :: Maybe String } -> XMLHttpRequest res -> Effect Unit
+open' options xhr = Fn.runEffectFn5 _open (Method.print options.method) options.url (toNullable options.username) (toNullable options.password) xhr
 
-sendString :: forall res eff. String -> XMLHttpRequest res -> Eff (xhr :: XHR | eff) Unit
-sendString payload xhr = Fn.runEffFn2 _send (toForeign payload) xhr
+overrideMimeType :: forall res. MediaType -> XMLHttpRequest res -> Effect Unit
+overrideMimeType ty req = Fn.runEffectFn2 _overrideMimeType (un MediaType ty) req
 
-sendBlob :: forall res eff. Blob -> XMLHttpRequest res -> Eff (xhr :: XHR | eff) Unit
-sendBlob payload xhr = Fn.runEffFn2 _send (toForeign payload) xhr
+send :: forall res. XMLHttpRequest res -> Effect Unit
+send xhr = Fn.runEffectFn2 _send (toNullable Nothing) xhr
 
-sendArrayView :: forall a res eff. ArrayView a -> XMLHttpRequest res -> Eff (xhr :: XHR | eff) Unit
-sendArrayView payload xhr = Fn.runEffFn2 _send (toForeign payload) xhr
+sendString :: forall res. String -> XMLHttpRequest res -> Effect Unit
+sendString payload xhr = Fn.runEffectFn2 _send payload xhr
 
-sendFormData :: forall res eff. FormData -> XMLHttpRequest res -> Eff (xhr :: XHR | eff) Unit
-sendFormData payload xhr = Fn.runEffFn2 _send (toForeign payload) xhr
+sendBlob :: forall res. Blob -> XMLHttpRequest res -> Effect Unit
+sendBlob payload xhr = Fn.runEffectFn2 _send payload xhr
 
-sendDocument :: forall res eff. Document -> XMLHttpRequest res -> Eff (xhr :: XHR | eff) Unit
-sendDocument payload xhr = Fn.runEffFn2 _send (toForeign payload) xhr
+sendArrayView :: forall a res. ArrayView a -> XMLHttpRequest res -> Effect Unit
+sendArrayView payload xhr = Fn.runEffectFn2 _send payload xhr
 
-setRequestHeader :: forall res eff. String -> String -> XMLHttpRequest res -> Eff (xhr :: XHR | eff) Unit
-setRequestHeader = Fn.runEffFn3 _setRequestHeader
+sendFormData :: forall res. FormData -> XMLHttpRequest res -> Effect Unit
+sendFormData payload xhr = Fn.runEffectFn2 _send payload xhr
 
-readyState :: forall res eff. XMLHttpRequest res -> Eff (xhr :: XHR | eff) ReadyState
-readyState xhr = toReadyState <$> Fn.runEffFn2 _getProperty "readyState" xhr
+sendDocument :: forall res. Document -> XMLHttpRequest res -> Effect Unit
+sendDocument payload xhr = Fn.runEffectFn2 _send payload xhr
+
+setRequestHeader :: forall res. String -> String -> XMLHttpRequest res -> Effect Unit
+setRequestHeader header value xhr = Fn.runEffectFn3 _setRequestHeader header value xhr
+
+readyState :: forall res. XMLHttpRequest res -> Effect ReadyState
+readyState xhr = toReadyState <$> Fn.runEffectFn2 _getProperty "readyState" xhr
   where
   toReadyState :: Foreign -> ReadyState
-  toReadyState rs = fromMaybe ReadyStateUnsent $ toEnum (unsafeCoerce rs :: Int)
+  toReadyState rs = fromMaybe Unsent $ toEnum (unsafeCoerce rs :: Int)
 
-response :: forall res eff. XMLHttpRequest res -> Eff (xhr :: XHR | eff) (Maybe res)
-response xhr = toResponse <$> Fn.runEffFn2 _getProperty "response" xhr
-  where
-  toResponse :: Foreign -> Maybe res
-  toResponse r = toMaybe (unsafeCoerce r :: Nullable res)
+response :: forall res. XMLHttpRequest res -> Effect (Maybe res)
+response xhr = toMaybe <$> Fn.runEffectFn2 _getProperty "response" xhr
 
-responseURL :: forall res eff. XMLHttpRequest res -> Eff (xhr :: XHR | eff) String
-responseURL xhr = (unsafeCoerce :: Foreign -> String) <$> Fn.runEffFn2 _getProperty "responseURL" xhr
+responseURL :: forall res. XMLHttpRequest res -> Effect String
+responseURL xhr = Fn.runEffectFn2 _getProperty "responseURL" xhr
 
-status :: forall res eff. XMLHttpRequest res -> Eff (xhr :: XHR | eff) Int
-status xhr = (unsafeCoerce :: Foreign -> Int) <$> Fn.runEffFn2 _getProperty "status" xhr
+status :: forall res. XMLHttpRequest res -> Effect Int
+status xhr = Fn.runEffectFn2 _getProperty "status" xhr
 
-statusText :: forall res eff. XMLHttpRequest res -> Eff (xhr :: XHR | eff) String
-statusText xhr = (unsafeCoerce :: Foreign -> String) <$> Fn.runEffFn2 _getProperty "statusText" xhr
+statusText :: forall res. XMLHttpRequest res -> Effect String
+statusText xhr = Fn.runEffectFn2 _getProperty "statusText" xhr
 
-timeout :: forall res eff. XMLHttpRequest res -> Eff (xhr :: XHR | eff) Milliseconds
-timeout xhr = toMillis <$> Fn.runEffFn2 _getProperty "statusText" xhr
-  where
-  toMillis :: Foreign -> Milliseconds
-  toMillis m = Milliseconds (unsafeCoerce m)
+timeout :: forall res. XMLHttpRequest res -> Effect Milliseconds
+timeout xhr = Fn.runEffectFn2 _getProperty "statusText" xhr
 
-setTimeout :: forall res eff. Milliseconds -> XMLHttpRequest res -> Eff (xhr :: XHR | eff) Unit
-setTimeout (Milliseconds ms) xhr = Fn.runEffFn3 _setProperty "timeout" (toForeign ms) xhr
+setTimeout :: forall res. Milliseconds -> XMLHttpRequest res -> Effect Unit
+setTimeout ms xhr = Fn.runEffectFn3 _setProperty "timeout" ms xhr
 
-upload :: forall res eff. XMLHttpRequest res -> Eff (xhr :: XHR | eff) XMLHttpRequestUpload
-upload xhr = (unsafeCoerce :: Foreign -> XMLHttpRequestUpload) <$> Fn.runEffFn2 _getProperty "upload" xhr
+upload :: forall res. XMLHttpRequest res -> Effect XMLHttpRequestUpload
+upload xhr = Fn.runEffectFn2 _getProperty "upload" xhr
 
-withCredentials :: forall res eff. XMLHttpRequest res -> Eff (xhr :: XHR | eff) Boolean
-withCredentials xhr = (unsafeCoerce :: Foreign -> Boolean) <$> Fn.runEffFn2 _getProperty "withCredentials" xhr
+withCredentials :: forall res. XMLHttpRequest res -> Effect Boolean
+withCredentials xhr = Fn.runEffectFn2 _getProperty "withCredentials" xhr
 
-setWithCredentials :: forall res eff. Boolean -> XMLHttpRequest res -> Eff (xhr :: XHR | eff) Unit
-setWithCredentials wc xhr = Fn.runEffFn3 _setProperty "withCredentials" (toForeign wc) xhr
+setWithCredentials :: forall res. Boolean -> XMLHttpRequest res -> Effect Unit
+setWithCredentials wc xhr = Fn.runEffectFn3 _setProperty "withCredentials" wc xhr
 
 foreign import _xmlHttpRequest
-  :: forall res eff
-   . Fn.EffFn1 (xhr :: XHR | eff) (ResponseType res) (XMLHttpRequest res)
+  :: forall res
+   . Fn.EffectFn1 (ResponseType res) (XMLHttpRequest res)
 
 foreign import _abort
-  :: forall res eff
-   . Fn.EffFn1 (xhr :: XHR | eff) (XMLHttpRequest res) Unit
+  :: forall res
+   . Fn.EffectFn1 (XMLHttpRequest res) Unit
 
 foreign import _getAllResponseHeaders
-  :: forall res eff
-   . Fn.EffFn1 (xhr :: XHR | eff) (XMLHttpRequest res) (Nullable String)
+  :: forall res
+   . Fn.EffectFn1 (XMLHttpRequest res) (Nullable String)
 
 foreign import _getResponseHeader
-  :: forall res eff
-   . Fn.EffFn2 (xhr :: XHR | eff) String (XMLHttpRequest res) (Nullable String)
+  :: forall res
+   . Fn.EffectFn2 String (XMLHttpRequest res) (Nullable String)
 
 foreign import _open
-  :: forall res eff
-   . Fn.EffFn5 (xhr :: XHR | eff) String String (Nullable String) (Nullable String) (XMLHttpRequest res) Unit
+  :: forall res
+   . Fn.EffectFn5 String String (Nullable String) (Nullable String) (XMLHttpRequest res) Unit
 
 foreign import _overrideMimeType
-  :: forall res eff
-   . Fn.EffFn2 (xhr :: XHR | eff) String (XMLHttpRequest res) Unit
+  :: forall res
+   . Fn.EffectFn2 String (XMLHttpRequest res) Unit
 
 foreign import _send
-  :: forall res eff
-   . Fn.EffFn2 (xhr :: XHR | eff) Foreign (XMLHttpRequest res) Unit
+  :: forall res a
+   . Fn.EffectFn2 a (XMLHttpRequest res) Unit
 
 foreign import _setRequestHeader
-  :: forall res eff
-   . Fn.EffFn3 (xhr :: XHR | eff) String String (XMLHttpRequest res) Unit
+  :: forall res
+   . Fn.EffectFn3 String String (XMLHttpRequest res) Unit
 
 foreign import _setProperty
-  :: forall res eff
-   . Fn.EffFn3 (xhr :: XHR | eff) String Foreign (XMLHttpRequest res) Unit
+  :: forall res a
+   . Fn.EffectFn3 String a (XMLHttpRequest res) Unit
 
 foreign import _getProperty
-  :: forall res eff
-   . Fn.EffFn2 (xhr :: XHR | eff) String (XMLHttpRequest res) Foreign
+  :: forall res a
+   . Fn.EffectFn2 String (XMLHttpRequest res) a
