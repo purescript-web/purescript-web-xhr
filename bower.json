@@ -17,9 +17,9 @@
   ],
   "dependencies": {
     "purescript-arraybuffer-types": "^2.0.0",
-    "purescript-datetime": "#compiler/0.12",
-    "purescript-http-methods": "#compiler/0.12",
-    "purescript-web-dom": "#compiler/0.12",
-    "purescript-web-file": "#compiler/0.12"
+    "purescript-datetime": "^1.0.0",
+    "purescript-http-methods": "^1.0.0",
+    "purescript-web-dom": "^1.0.0",
+    "purescript-web-file": "^1.0.0"
   }
 }
