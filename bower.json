@@ -19,7 +19,7 @@
     "purescript-arraybuffer-types": "^2.0.0",
     "purescript-datetime": "^4.0.0",
     "purescript-http-methods": "^4.0.0",
-    "purescript-web-dom": "^1.0.0",
-    "purescript-web-file": "^1.0.0"
+    "purescript-web-dom": "^2.0.0",
+    "purescript-web-file": "^2.0.0"
   }
 }
