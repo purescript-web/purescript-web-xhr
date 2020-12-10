@@ -13,6 +13,8 @@ import Data.ArrayBuffer.Types (ArrayBuffer)
 newtype ResponseType :: Type -> Type
 newtype ResponseType res = ResponseType String
 
+type role ResponseType nominal
+
 arrayBuffer :: ResponseType ArrayBuffer
 arrayBuffer = ResponseType "arraybuffer"
 
