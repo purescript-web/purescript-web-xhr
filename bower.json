@@ -16,10 +16,10 @@
     "output"
   ],
   "dependencies": {
-    "purescript-arraybuffer-types": "2",
-    "purescript-datetime": "4",
-    "purescript-http-methods": "4",
-    "purescript-web-dom": "2 - 4",
-    "purescript-web-file": "2"
+    "purescript-arraybuffer-types": "main",
+    "purescript-datetime": "master",
+    "purescript-http-methods": "main",
+    "purescript-web-dom": "master",
+    "purescript-web-file": "master"
   }
 }
