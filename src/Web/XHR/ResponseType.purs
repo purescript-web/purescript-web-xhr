@@ -10,6 +10,7 @@ import Web.File.Blob (Blob)
 import Web.DOM.Document (Document)
 import Data.ArrayBuffer.Types (ArrayBuffer)
 
+newtype ResponseType :: Type -> Type
 newtype ResponseType res = ResponseType String
 
 arrayBuffer :: ResponseType ArrayBuffer
