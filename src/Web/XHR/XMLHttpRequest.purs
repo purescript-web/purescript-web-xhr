@@ -118,7 +118,7 @@ statusText :: forall res. XMLHttpRequest res -> Effect String
 statusText xhr = Fn.runEffectFn2 _getProperty "statusText" xhr
 
 timeout :: forall res. XMLHttpRequest res -> Effect Milliseconds
-timeout xhr = Fn.runEffectFn2 _getProperty "statusText" xhr
+timeout xhr = Fn.runEffectFn2 _getProperty "timeout" xhr
 
 setTimeout :: forall res. Milliseconds -> XMLHttpRequest res -> Effect Unit
 setTimeout ms xhr = Fn.runEffectFn3 _setProperty "timeout" ms xhr
