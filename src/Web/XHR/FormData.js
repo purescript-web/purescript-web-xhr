@@ -4,6 +4,10 @@ exports["new"] = function () {
   return new FormData();
 };
 
+exports._fromFormElement = function(form) {
+  return new FormData(form);
+};
+
 exports._append = function (name, value, fd) {
   fd.append(name, value);
 };
