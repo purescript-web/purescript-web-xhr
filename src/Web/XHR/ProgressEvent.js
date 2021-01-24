@@ -4,10 +4,6 @@ exports.lengthComputable = function (ev) {
   return ev.lengthComputable;
 };
 
-exports.lengthComputable = function (ev) {
-  return ev.lengthComputable;
-};
-
 exports.loaded = function (ev) {
   return ev.loaded;
 };
