@@ -9,6 +9,7 @@ Breaking changes:
 
 New features:
 - Added roles declarations to forbid unsafe coercions (#7) 
+- Can create a new `FormData` from `HTMLFormElement` (#15)
 
 Bugfixes:
 - Access the "timeout" property instead of "statusText" in `timeout` (#12)

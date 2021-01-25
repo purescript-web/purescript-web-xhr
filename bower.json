@@ -20,6 +20,7 @@
     "purescript-datetime": "master",
     "purescript-http-methods": "main",
     "purescript-web-dom": "master",
-    "purescript-web-file": "master"
+    "purescript-web-file": "master",
+    "purescript-web-html": "master"
   }
 }

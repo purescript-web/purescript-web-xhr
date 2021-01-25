@@ -19,6 +19,7 @@ import Data.Nullable (Nullable, toNullable)
 import Effect (Effect)
 import Effect.Uncurried as Fn
 import Web.File.Blob (Blob)
+import Web.HTML.HTMLFormElement (HTMLFormElement)
 
 foreign import data FormData :: Type
 
@@ -35,6 +36,9 @@ derive newtype instance ordFileName :: Ord FileName
 derive instance newtypeFileName :: Newtype FileName _
 
 foreign import new :: Effect FormData
+
+fromFormElement :: HTMLFormElement -> Effect FormData
+fromFormElement formElement = Fn.runEffectFn1 _fromFormElement formElement
 
 append :: EntryName -> String -> FormData -> Effect Unit
 append name value fd = Fn.runEffectFn3 _append name value fd
@@ -53,6 +57,8 @@ set name value fd = Fn.runEffectFn3 _set name value fd
 
 setBlob :: EntryName -> Blob -> Maybe FileName -> FormData -> Effect Unit
 setBlob name value filename fd = Fn.runEffectFn4 _setBlob name value (toNullable filename) fd
+
+foreign import _fromFormElement :: Fn.EffectFn1 HTMLFormElement FormData
 
 -- void append(USVString name, USVString value);
 foreign import _append :: Fn.EffectFn3 EntryName String FormData Unit
