@@ -16,6 +16,7 @@ Bugfixes:
 Other improvements:
 - Migrated CI to GitHub Actions and updated installation instructions to use Spago (#8)
 - Added a CHANGELOG.md file and pull request template (#13, #14)
+- Remove duplicated `exports.lengthComputable` (#16)
 
 ## [v3.0.2](https://github.com/purescript-web/purescript-web-xhr/releases/tag/v3.0.2) - 2019-08-18
 
