@@ -3,6 +3,7 @@ module Web.XHR.FormData
   , EntryName(..)
   , FileName(..)
   , new
+  , fromFormElement
   , append
   , appendBlob
   , delete
