@@ -7,10 +7,12 @@ Notable changes to this project are documented in this file. The format is based
 Breaking changes:
 
 New features:
+- Export `fromFormElement` (#19 by @JordanMartinez)
 
 Bugfixes:
 
 Other improvements:
+- Fix warnings revealed by v0.14.1 PS release (#19 by @JordanMartinez)
 
 ## [v4.0.0](https://github.com/purescript-web/purescript-web-xhr/releases/tag/v4.0.0) - 2021-02-26
 
