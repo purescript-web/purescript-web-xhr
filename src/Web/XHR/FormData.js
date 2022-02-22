@@ -4,30 +4,30 @@ exports["new"] = function () {
   return new FormData();
 };
 
-exports._fromFormElement = function(form) {
+export function _fromFormElement(form) {
   return new FormData(form);
-};
+}
 
-exports._append = function (name, value, fd) {
+export function _append(name, value, fd) {
   fd.append(name, value);
-};
+}
 
-exports._appendBlob = function (name, value, filename, fd) {
+export function _appendBlob(name, value, filename, fd) {
   fd.append(name, value, filename);
-};
+}
 
-exports._delete = function (name, fd) {
+export function _delete(name, fd) {
   fd.delete(name);
-};
+}
 
-exports._has = function (name, fd) {
+export function _has(name, fd) {
   return fd.has(name);
-};
+}
 
-exports._set = function (name, value, fd) {
+export function _set(name, value, fd) {
   fd.set(name, value);
-};
+}
 
-exports._setBlob = function (name, value, filename, fd) {
+export function _setBlob(name, value, filename, fd) {
   fd.set(name, value, filename);
-};
+}

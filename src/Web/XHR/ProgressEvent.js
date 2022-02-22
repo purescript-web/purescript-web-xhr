@@ -1,13 +1,13 @@
 "use strict";
 
-exports.lengthComputable = function (ev) {
+export function lengthComputable(ev) {
   return ev.lengthComputable;
-};
+}
 
-exports.loaded = function (ev) {
+export function loaded(ev) {
   return ev.loaded;
-};
+}
 
-exports.total = function (ev) {
+export function total(ev) {
   return ev.total;
-};
+}
