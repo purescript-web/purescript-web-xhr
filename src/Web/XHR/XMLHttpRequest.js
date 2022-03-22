@@ -1,5 +1,3 @@
-"use strict";
-
 export function _xmlHttpRequest(respType) {
   var xhr = new XMLHttpRequest();
   xhr.responseType = respType;

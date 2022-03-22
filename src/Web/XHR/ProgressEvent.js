@@ -1,5 +1,3 @@
-"use strict";
-
 export function lengthComputable(ev) {
   return ev.lengthComputable;
 }
