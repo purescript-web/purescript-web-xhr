@@ -1,6 +1,7 @@
-exports["new"] = function () {
+const newImpl = function () {
   return new FormData();
 };
+export { newImpl as new };
 
 export function _fromFormElement(form) {
   return new FormData(form);
