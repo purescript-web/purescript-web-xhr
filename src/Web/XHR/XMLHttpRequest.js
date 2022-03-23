@@ -1,43 +1,41 @@
-"use strict";
-
-exports._xmlHttpRequest = function (respType) {
+export function _xmlHttpRequest(respType) {
   var xhr = new XMLHttpRequest();
   xhr.responseType = respType;
   return xhr;
-};
+}
 
-exports._abort = function (xhr) {
+export function _abort(xhr) {
   xhr.abort();
-};
+}
 
-exports._getAllResponseHeaders = function (xhr) {
+export function _getAllResponseHeaders(xhr) {
   return xhr.getAllResponseHeaders();
-};
+}
 
-exports._getResponseHeader = function (header, xhr) {
+export function _getResponseHeader(header, xhr) {
   return xhr.getResponseHeader(header);
-};
+}
 
-exports._open = function (method, url, username, password, xhr) {
+export function _open(method, url, username, password, xhr) {
   xhr.open(method, url, true, username, password);
-};
+}
 
-exports._overrideMimeType = function (mimeType, xhr) {
+export function _overrideMimeType(mimeType, xhr) {
   xhr.overrideMimeType(mimeType);
-};
+}
 
-exports._send = function (payload, xhr) {
+export function _send(payload, xhr) {
   xhr.send(payload);
-};
+}
 
-exports._setRequestHeader = function (header, value, xhr) {
+export function _setRequestHeader(header, value, xhr) {
   xhr.setRequestHeader(header, value);
-};
+}
 
-exports._setProperty = function (prop, value, xhr) {
+export function _setProperty(prop, value, xhr) {
   xhr[prop] = value;
-};
+}
 
-exports._getProperty = function (prop, xhr) {
+export function _getProperty(prop, xhr) {
   return xhr[prop];
-};
+}

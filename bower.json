@@ -16,11 +16,11 @@
     "output"
   ],
   "dependencies": {
-    "purescript-arraybuffer-types": "^3.0.0",
-    "purescript-datetime": "^5.0.0",
-    "purescript-http-methods": "^5.0.0",
-    "purescript-web-dom": "^5.0.0",
-    "purescript-web-file": "^3.0.0",
-    "purescript-web-html": "^3.0.0"
+    "purescript-arraybuffer-types": "main",
+    "purescript-datetime": "master",
+    "purescript-http-methods": "main",
+    "purescript-web-dom": "master",
+    "purescript-web-file": "master",
+    "purescript-web-html": "master"
   }
 }
