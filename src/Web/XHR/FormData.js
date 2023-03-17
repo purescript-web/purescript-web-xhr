@@ -12,7 +12,7 @@ export function _append(name, value, fd) {
 }
 
 export function _appendBlob(name, value, filename, fd) {
-  fd.append(name, value, filename);
+  fd.append(name, value, filename === null ? undefined : filename);
 }
 
 export function _delete(name, fd) {
@@ -28,5 +28,5 @@ export function _set(name, value, fd) {
 }
 
 export function _setBlob(name, value, filename, fd) {
-  fd.set(name, value, filename);
+  fd.set(name, value, filename === null ? undefined : filename);
 }

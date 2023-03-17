@@ -9,6 +9,9 @@ Breaking changes:
 New features:
 
 Bugfixes:
+- Passing `Nothing` for the `filename` parameter to `appendBlob` and `setBlob`
+  has the effect of using the filename from the `File` object, rather than
+  making filename equal to `"null"`.
 
 Other improvements:
 
@@ -37,7 +40,7 @@ Breaking changes:
 - Added support for PureScript 0.14 and dropped support for all previous versions (#10)
 
 New features:
-- Added roles declarations to forbid unsafe coercions (#7) 
+- Added roles declarations to forbid unsafe coercions (#7)
 - Can create a new `FormData` from `HTMLFormElement` (#15)
 
 Bugfixes:
