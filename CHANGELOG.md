@@ -9,11 +9,13 @@ Breaking changes:
 New features:
 
 Bugfixes:
-- Passing `Nothing` for the `filename` parameter to `appendBlob` and `setBlob`
-  has the effect of using the filename from the `File` object, rather than
-  making filename equal to `"null"`.
 
 Other improvements:
+
+## [v5.0.1](https://github.com/purescript-web/purescript-web-xhr/releases/tag/v5.0.1) - 2023-04-20
+
+Bugfixes:
+- Passing `Nothing` for the `filename` parameter to `appendBlob` and `setBlob` has the effect of using the filename from the `File` object, rather than making filename equal to `"null"`. (#23 by @fsoikin)
 
 ## [v5.0.0](https://github.com/purescript-web/purescript-web-xhr/releases/tag/v5.0.0) - 2022-04-27
 
