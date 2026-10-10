@@ -12,6 +12,11 @@ Bugfixes:
 
 Other improvements:
 
+## [v5.0.2](https://github.com/purescript-web/purescript-web-xhr/releases/tag/v5.0.2) - 2026-10-10
+
+Other improvements:
+- Migrated from Bower/Pulp to registry-backed Spago and updated PureScript, CI, and development tooling with Oxlint, Oxfmt, and purs-tidy (#24 by @thomashoneyman).
+
 ## [v5.0.1](https://github.com/purescript-web/purescript-web-xhr/releases/tag/v5.0.1) - 2023-03-20
 
 Bugfixes:
